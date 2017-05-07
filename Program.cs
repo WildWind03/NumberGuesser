@@ -11,13 +11,13 @@ namespace NumberGuesser
         private const string AuthoName = "Alexander Chirikhin";
         private const string QuitString = "q";
 
-        static void Main(string[] args)
+        static void Main()
         {
-            TimeSpan timeSpan = DateTime.Now - DateTime.Now;
+            var startDateTime = DateTime.Now;
             Console.WriteLine("Please, type your name");
-            string userName = Console.ReadLine();
+            var userName = Console.ReadLine();
 
-            string[] offensiveComments = new string[CountOfComments];
+            var offensiveComments = new string[CountOfComments];
 
             if (userName != AuthoName)
             {
@@ -37,15 +37,15 @@ namespace NumberGuesser
                 offensiveComments[3] = "{0}, you are the smartest man I've ever met! So cool!";
             }
 
-            int[] failedAttempts = new int[MaxCoundOfFailedAttempts];
-            int countOfFailedAttempts = 0;
-            Random random = new Random();
+            var failedAttempts = new int[MaxCoundOfFailedAttempts];
+            var countOfFailedAttempts = 0;
+            var random = new Random();
 
             int randomNumber = random.Next() % MaxRandomNumber;
 
-            for (int k = 0; ; k++)
+            for (var k = 0; ; k++)
             {
-                string typedNumberString = Console.ReadLine();
+                var typedNumberString = Console.ReadLine();
 
                 if (typedNumberString == QuitString)
                 {
@@ -55,7 +55,7 @@ namespace NumberGuesser
 
                 try
                 {
-                    int typedNumberInteger = int.Parse(typedNumberString);
+                    var typedNumberInteger = int.Parse(typedNumberString);
 
                     if (typedNumberInteger == randomNumber)
                     {
@@ -63,24 +63,16 @@ namespace NumberGuesser
                         Console.WriteLine("Attempts Count: {0}", countOfFailedAttempts + 1);
                         Console.Write("History: ");
 
-                        for (int i = 0; i < countOfFailedAttempts; ++i)
+                        for (var i = 0; i < countOfFailedAttempts; ++i)
                         {
-                            string lessOrGreaterLabel;
-                            if (failedAttempts[i] > randomNumber)
-                            {
-                                lessOrGreaterLabel = ">";
-                            }
-                            else
-                            {
-                                lessOrGreaterLabel = "<";
-                            }
+                            var lessOrGreaterLabel = failedAttempts[i] > randomNumber ? ">" : "<";
                             Console.Write(" {0}({1})", failedAttempts[i], lessOrGreaterLabel);
                         }
 
                         Console.Write(" {0}({1})", randomNumber, "=");
 
                         Console.WriteLine();
-                        Console.WriteLine("Count of passed minutes: {0}", timeSpan.Minutes);
+                        Console.WriteLine("Count of passed seconds: {0}", (DateTime.Now - startDateTime).Seconds);
                         break;
                     }
                     if (countOfFailedAttempts >= MaxCoundOfFailedAttempts - 1)
@@ -108,12 +100,10 @@ namespace NumberGuesser
                 catch (FormatException)
                 {
                     Console.WriteLine("What kind of boolshit you have typed!? It's even not a number!");
-                    break;
                 }
                 catch (OverflowException)
                 {
                     Console.WriteLine("Put such numbers into your tremendous butthole!");
-                    break;
                 }
             }
 
